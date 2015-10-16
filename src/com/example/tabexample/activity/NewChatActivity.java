@@ -1,6 +1,8 @@
 package com.example.tabexample.activity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +38,7 @@ public class NewChatActivity extends Activity implements OnClickListener{
 	private FriendInfo info;
 	private ListView chat_list;
 	private MsgAdapter adapter;
-	private List<Msg> msgList = new ArrayList<Msg>();
+	private List<Msg> mDataArrays = new ArrayList<Msg>();
 	private EditText et_sendmessage;
 	private XMPPConnection connection = null;
 	private Map<String, Chat> chatManage = new HashMap<String, Chat>();// 聊天窗口管理map集合
@@ -48,7 +50,7 @@ public class NewChatActivity extends Activity implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.chat_xiaohei);
-		
+	//	chat_list.setSelection(adapter.getCount() - 1);
 		if (getIntent().getExtras() != null
 				&& getIntent().getExtras().getSerializable("info") != null) {
 			info = (FriendInfo) getIntent().getExtras().getSerializable("info");
@@ -60,9 +62,10 @@ public class NewChatActivity extends Activity implements OnClickListener{
 		title.setText(info.getUsername());
 		
 		chat_list = (ListView) findViewById(R.id.listview);
-		adapter = new MsgAdapter(NewChatActivity.this,
-				R.layout.chat_item, msgList);
+		adapter = new MsgAdapter(NewChatActivity.this,mDataArrays);
 		chat_list.setAdapter(adapter);
+		
+		
 		
 		Button btn_send = (Button)findViewById(R.id.btn_send);
 		btn_send.setOnClickListener(this);
@@ -97,21 +100,27 @@ public class NewChatActivity extends Activity implements OnClickListener{
 						});
 					}
 				});
+				
+				chat_list.setSelection(adapter.getCount() - 1);
 	}
 	@Override
 	public void onClick(View v) {
 		// 发送信息 获取输入的信息
-		String name = info.getUsername();
+		String name = XMPPTool.getConnection().getUser().substring(0,XMPPTool.getConnection().getUser().indexOf("@"));
 		et_sendmessage = (EditText) findViewById(R.id.et_sendmessage);
 		String message = et_sendmessage.getText().toString();
 
 		Chat chat = getFriendChat(info.getUsername(), null);
 		try {
 			if (!"".equals(message)) {
-				Msg msg = new Msg(message, Msg.TYPE_SENT);
-				msgList.add(msg);
+				Msg msg = new Msg();
+				msg.setName(name);
+				msg.setMsgType(false);// 自己发送的消息
+				msg.setDate(getDate());
+				msg.setMessage(message);
+				mDataArrays.add(msg);
 				adapter.notifyDataSetChanged();
-				chat_list.setSelection(msgList.size());
+				chat_list.setSelection(mDataArrays.size());
 				et_sendmessage.setText("");
 				chat.sendMessage(message);
 			}
@@ -151,8 +160,12 @@ public class NewChatActivity extends Activity implements OnClickListener{
 				// 获取消息并显示
 				String[] args = (String[]) msg.obj;
 				String m = args[1];
-				
-				msgList.add(new Msg(args[1], 0));
+				Msg msg1 = new Msg();
+				msg1.setName(args[0]);
+				msg1.setMessage(m);
+				msg1.setDate(getDate());
+				msg1.setMsgType(true);
+				mDataArrays.add(msg1);
 				// 刷新适配器
 				adapter.notifyDataSetChanged();
 				break;
@@ -161,4 +174,13 @@ public class NewChatActivity extends Activity implements OnClickListener{
 			}
 		};
 	};
+	/**
+	 * 发送消息时，获取当前事件
+	 * 
+	 * @return 当前时间
+	 */
+	private String getDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		return format.format(new Date());
+	}
 }

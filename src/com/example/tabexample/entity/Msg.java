@@ -1,21 +1,58 @@
 package com.example.tabexample.entity;
 
+/**
+ * 一个消息的JavaBean
+ * 
+ * @author way
+ * 
+ */
 public class Msg {
-	public static final int TYPE_RECEIVED = 0;
-	public static final int TYPE_SENT = 1;
-	private String content;
-	private int type;
-	
-	public Msg(String content, int type) {
-		this.content = content;
-		this.type = type;
+	private String name;//消息来自
+	private String date;//消息日期
+	private String message;//消息内容
+	private boolean isComMeg = true;// 是否为收到的消息
+
+	public String getName() {
+		return name;
 	}
 
-	public String getContent() {
-		return content;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public int getType() {
-		return type;
+	public String getDate() {
+		return date;
 	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public boolean getMsgType() {
+		return isComMeg;
+	}
+
+	public void setMsgType(boolean isComMsg) {
+		isComMeg = isComMsg;
+	}
+
+	public Msg() {
+	}
+
+	public Msg(String name, String date, String text, boolean isComMsg) {
+		super();
+		this.name = name;
+		this.date = date;
+		this.message = text;
+		this.isComMeg = isComMsg;
+	}
+
 }

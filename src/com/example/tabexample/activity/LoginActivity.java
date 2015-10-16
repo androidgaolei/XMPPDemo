@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginActivity extends Activity implements OnClickListener{
 	
@@ -55,6 +56,11 @@ public class LoginActivity extends Activity implements OnClickListener{
 					try {
 						//连接openfire 服务器
 						XMPPTool.getConnection().login(userId, pwd);
+//						boolean result = XMPPTool.login(userId, pwd);
+//						if(result==false){
+//							Toast.makeText(LoginActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+//							return;
+//						}
 						Presence presence = new Presence(Presence.Type.available);
 						XMPPTool.getConnection().sendPacket(presence);
 						

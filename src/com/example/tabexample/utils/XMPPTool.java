@@ -2,6 +2,8 @@ package com.example.tabexample.utils;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Presence;
 
 public class XMPPTool {
 	private static XMPPConnection con = null;
@@ -28,4 +30,30 @@ public class XMPPTool {
 		con.disconnect();
 		con = null;
 	}
+    /** 
+     * µÇÂ¼ 
+     *  
+     * @param account 
+     *            µÇÂ¼ÕÊºÅ 
+     * @param password 
+     *            µÇÂ¼ÃÜÂë 
+     * @return 
+     */  
+    public static boolean login(String account, String password) {  
+        try {  
+            if (XMPPTool.getConnection() == null)  
+                return false;  
+            XMPPTool.getConnection().login(account, password);  
+            
+            Presence presence = new Presence(Presence.Type.available);
+			XMPPTool.getConnection().sendPacket(presence);
+         
+           
+            return true;  
+        } catch (XMPPException xe) {  
+            xe.printStackTrace();  
+        }  
+        return false;  
+    }
+	
 }

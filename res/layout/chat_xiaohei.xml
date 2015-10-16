@@ -90,8 +90,8 @@
                 <EditText
                     android:id="@+id/et_sendmessage"
                     android:layout_width="0dip"
-                    android:layout_weight="3"
                     android:layout_height="40dip"
+                    android:layout_weight="1.56"
                     android:background="@drawable/login_edit_normal"
                     android:paddingTop="5.0dip"
                     android:singleLine="true"
