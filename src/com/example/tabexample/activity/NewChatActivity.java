@@ -52,20 +52,18 @@ public class NewChatActivity extends Activity implements OnClickListener{
 	public static String NAME;
 	public static String CONTENT;
 	public static String DATE;
+	public static boolean FLAG = true;
 	
-	private ChatHis chatEntity;
 	private EditText et_sendmessage;
 	private ImageButton chatting_keyboard_btn;
 	private ImageButton pic1;
 	private ImageButton pic2;
 	private ImageButton pic3;
 	private ImageButton pic4;
-	private ChatHis chatHis = new ChatHis();
 	private XMPPConnection connection = null;
 	private Map<String, Chat> chatManage = new HashMap<String, Chat>();// 聊天窗口管理map集合
 	ChatManager cm = XMPPTool.getConnection().getChatManager();
 	private MyDatabaseHelper dbHelper;
-	private boolean flag = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -178,12 +176,11 @@ public class NewChatActivity extends Activity implements OnClickListener{
 				chat_list.setSelection(mDataArrays.size());
 				et_sendmessage.setText("");
 				chat.sendMessage(message);
-			
+				
 				NAME = info.getUsername();
 				CONTENT = message;
 				DATE = getDate();
 				
-				flag = true;
 				SQLiteDatabase db = dbHelper.getWritableDatabase();
 				ContentValues values = new ContentValues();
 				// 开始组装第一条数据

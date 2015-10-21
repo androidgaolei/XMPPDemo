@@ -25,6 +25,8 @@ import com.example.tabexample.listener.TaxiChatManagerListener;
 import com.example.tabexample.utils.Utils;
 import com.example.tabexample.utils.XMPPTool;
 
+import de.greenrobot.event.EventBus;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -74,16 +76,25 @@ public class MainActivity extends Activity implements
 	private ImageButton top_search;// 虽然是查询 但是是创建聊天室。。。没有素材的烦恼！！！！
 	private List<com.example.tabexample.entity.FriendInfo> friendList;
 	com.example.tabexample.entity.FriendInfo friendInfo;
-	
+
+	public static String NAME;
+	public static String CONTENT;
+	public static String DATE;
+	private ChatAdapter adapter;
+
+	public static List<ChatHis> chatList = new ArrayList<ChatHis>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
-		// TaxiChatManagerListener chatManagerListener = new
-		// TaxiChatManagerListener(MainActivity.this);
-		// XMPPTool.getConnection().getChatManager().addChatListener(chatManagerListener);
+		TaxiChatManagerListener chatManagerListener = new TaxiChatManagerListener(
+				MainActivity.this);
+		XMPPTool.getConnection().getChatManager()
+				.addChatListener(chatManagerListener);
+		// initHistory();
+		EventBus.getDefault().register(this);
 		top_search = (ImageButton) findViewById(R.id.top_search);
 		top_search.setOnClickListener(new OnClickListener() {
 
@@ -305,18 +316,13 @@ public class MainActivity extends Activity implements
 	}
 
 	private void initHistory() {
-		Toast.makeText(MainActivity.this, "history", Toast.LENGTH_SHORT).show();
-		final List<ChatHis> chatList = new ArrayList<ChatHis>();
-		ChatHis chat = new ChatHis();
-		chat.setContent(NewChatActivity.CONTENT);
-		chat.setDate(NewChatActivity.DATE);
-		chat.setUsername(NewChatActivity.NAME);
-		 chatList.add(chat);
-		 ListView listView = (ListView)findViewById(R.id.list_view_history);
-		 ChatAdapter adapter = new ChatAdapter(MainActivity.this, chatList);
-		 listView.setAdapter(adapter);
-		 adapter.notifyDataSetChanged();
-		 listView.setOnItemClickListener(new OnItemClickListener() {
+		// Toast.makeText(MainActivity.this, "history",
+		// Toast.LENGTH_SHORT).show();
+		
+			ListView listView = (ListView) findViewById(R.id.list_view_history);
+			adapter = new ChatAdapter(MainActivity.this, chatList);
+			listView.setAdapter(adapter);
+			listView.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view,
 						int position, long id) {
@@ -331,9 +337,18 @@ public class MainActivity extends Activity implements
 
 				}
 			});
+		
+
 	}
 
-
+	public void onEventMainThread(ChatHis event) {
+		ChatHis chatH = new ChatHis();
+		chatH.setContent(event.getContent());
+		chatH.setDate(event.getDate());
+		chatH.setUsername(event.getUsername());
+		chatList.add(chatH);
+		adapter.notifyDataSetChanged();
+	}
 
 	private void initAddress() {
 
@@ -501,4 +516,5 @@ public class MainActivity extends Activity implements
 			e.printStackTrace();
 		}
 	}
+
 }
