@@ -10,7 +10,8 @@ public class XMPPTool {
 	
 	private static void openConnection(){
 		try {
-			ConnectionConfiguration config = new ConnectionConfiguration("192.168.102.123", 5222);
+			//ConnectionConfiguration config = new ConnectionConfiguration("192.168.102.123", 5222);
+			ConnectionConfiguration config = new ConnectionConfiguration("192.168.191.1", 5222);
 			con = new XMPPConnection(config);
 			con.connect();
 		} catch (Exception e) {

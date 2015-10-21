@@ -54,8 +54,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            
-
             <ImageButton
                 android:id="@+id/chatting_keyboard_btn"
                 android:layout_width="wrap_content"
@@ -65,19 +63,18 @@
                 android:paddingBottom="4.0dip"
                 android:paddingTop="5.0dip"
                 android:src="@drawable/chatting_setmode_keyboard_btn"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
-            
             <ImageButton
                 android:id="@+id/chatting_biaoqing_focuse_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:background="@null"
                 android:minWidth="0.0dip"
-                android:visibility="gone"
                 android:paddingBottom="4.0dip"
                 android:paddingTop="5.0dip"
-                android:src="@drawable/chatting_setmode_biaoqing_btn" />
+                android:src="@drawable/chatting_setmode_biaoqing_btn"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/ll_fasong"
@@ -99,11 +96,11 @@
 
                 <Button
                     android:id="@+id/btn_send"
-                   android:layout_width="0dip"
-                    android:layout_weight="1"
+                    android:layout_width="0dip"
                     android:layout_height="40dp"
                     android:layout_marginLeft="3dip"
                     android:layout_marginRight="3dip"
+                    android:layout_weight="0.46"
                     android:background="@drawable/chat_send_btn"
                     android:paddingTop="5.0dip"
                     android:text="发送" />
@@ -139,35 +136,40 @@
             android:background="#f32f33"
             android:visibility="gone" >
         </android.support.v4.view.ViewPager>
+
         <LinearLayout
             android:id="@+id/page_select"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/viewpager"
             android:background="#ddd"
-            android:visibility="gone"
-        	android:gravity="center_horizontal"     >
+            android:gravity="center_horizontal"
+            android:visibility="gone" >
+
+                <ImageButton
+                    android:id="@+id/pic1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/renma" />
             
-            <ImageView
-            	android:id="@+id/page0_select"
-        		android:layout_width="wrap_content"
-        		android:layout_height="wrap_content"        	     	
-        		android:scaleType="matrix"
-        		android:src="@drawable/page_focused" />
-            <ImageView
-            	android:id="@+id/page1_select"
-        		android:layout_width="wrap_content"
-        		android:layout_height="wrap_content"
-        		android:layout_marginLeft="10dp"        	     	
-        		android:scaleType="matrix"
-        		android:src="@drawable/page_unfocused" />
-            <ImageView
-            	android:id="@+id/page2_select"
-        		android:layout_width="wrap_content"
-        		android:layout_height="wrap_content"
-        		android:layout_marginLeft="10dp"           	     	
-        		android:scaleType="matrix"
-        		android:src="@drawable/page_unfocused" />           
+
+            <ImageButton
+                android:id="@+id/pic2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/renma" />
+
+            <ImageButton
+                android:id="@+id/pic3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/renma" />
+
+            <ImageButton
+                android:id="@+id/pic4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/renma" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -178,7 +180,6 @@
         android:layout_above="@id/rl_bottom"
         android:layout_below="@id/rl_layout"
         android:cacheColorHint="#0000"
-        android:divider="@null"
-        />
+        android:divider="@null" />
 
 </RelativeLayout>
